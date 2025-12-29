@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Alarm Clock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f0f0f;
+            color: #00ffcc;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .clock {
+            text-align: center;
+        }
+
+        #time {
+            font-size: 64px;
+        }
+
+        #status {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="clock">
+    <div id="time">--:--:--</div>
+    <div id="status">Alarm set for 12:47 PM</div>
+</div>
+
+<script>
+const alarmHour = 12;   // 12 PM
+const alarmMinute = 47;
+let alarmTriggered = false;
+
+function updateClock() {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+
+    // Display time
+    const h12 = hours % 12 || 12;
+    const m = minutes.toString().padStart(2, "0");
+    const s = seconds.toString().padStart(2, "0");
+    const ampm = hours >= 12 ? "PM" : "AM";
+
+    document.getElementById("time").textContent =
+        `${h12}:${m}:${s} ${ampm}`;
+
+    // Alarm trigger (once)
+    if (!alarmTriggered && hours === alarmHour && minutes === alarmMinute) {
+        alarmTriggered = true;
+        document.getElementById("status").textContent =
+            "Oh my gawd..... What if mahal pa rin niya ako?..";
+
+        window.open(
+            "https://open.spotify.com/playlist/5aSBsXSYlhZKgoe71MDu28",
+            "_blank"
+        );
+    }
+}
+
+// Check every second
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+
+</body>
+</html>
