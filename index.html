@@ -22,25 +22,28 @@ body {
 <body>
 
 <div id="time">--:--:--</div>
-<div id="status">Alarm set for 3:31 PM?</div>
+<div id="status">Alarm set for 3:40 PM?</div>
 <button id="startBtn">Enable Alarm to activate</button>
 
 <!-- Audio element -->
-<audio id="alarmAudio" src="Rob Deniel - Nandito Ako (Official Lyric Visualizer).mp3
-" preload="auto"></audio>
+<audio id="alarmAudio" src="Rob Deniel - Nandito Ako (Official Lyric Visualizer).mp3" preload="auto"></audio>
 
 <script>
 const alarmHour = 15;
-const alarmMinute = 31;
+const alarmMinute = 40;
 let alarmEnabled = false;
 let alarmTriggered = false;
 
 const audio = document.getElementById("alarmAudio");
+const startBtn = document.getElementById("startBtn");
 
 // Enable alarm after user clicks button
-document.getElementById("startBtn").addEventListener("click", () => {
+startBtn.addEventListener("click", () => {
     alarmEnabled = true;
-    document.getElementById("status").textContent = "Alarm set for 3:31, Get ready for a suprise :>";
+    document.getElementById("status").textContent = "Alarm set for 3:31, Get ready for a surprise :>";
+    
+    // Hide the button
+    startBtn.style.display = "none";
 });
 
 // Update clock every second
@@ -66,8 +69,3 @@ updateClock();
 
 </body>
 </html>
-
-
-
-
-
