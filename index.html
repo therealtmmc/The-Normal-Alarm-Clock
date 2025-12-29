@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Custom Alarm Clock</title>
+<title>The Relapse Clock Set</title>
 <style>
 body {
     font-family: Arial;
@@ -14,13 +14,39 @@ body {
     height: 100vh;
     flex-direction: column;
 }
-#time { font-size: 64px; margin-bottom: 20px; }
-#status { font-size: 18px; margin-top: 10px; }
-#startBtn { margin-top: 20px; padding: 10px 20px; font-size: 16px; }
-input, select { padding: 5px; font-size: 16px; margin: 5px; }
+
+/* NEW: Title styling */
+h1 {
+    font-size: 42px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#time { 
+    font-size: 64px; 
+    margin-bottom: 20px; 
+}
+#status { 
+    font-size: 18px; 
+    margin-top: 10px; 
+    text-align: center;
+}
+#startBtn { 
+    margin-top: 20px; 
+    padding: 10px 20px; 
+    font-size: 16px; 
+}
+input, select { 
+    padding: 5px; 
+    font-size: 16px; 
+    margin: 5px; 
+}
 </style>
 </head>
 <body>
+
+<!-- NEW TITLE -->
+<h1>The Relapse Clock Set</h1>
 
 <div id="time">--:--:--</div>
 <div id="status">Set your alarm time:</div>
@@ -64,9 +90,9 @@ startBtn.addEventListener("click", () => {
     alarmMinute = minute;
     alarmEnabled = true;
 
-    document.getElementById("status").textContent = `Alarm set for ${hour.toString().padStart(2,"0")}:${minute.toString().padStart(2,"0")} ${ampm}. Get ready for a surprise!`;
+    document.getElementById("status").textContent =
+        `Alarm set for ${hour.toString().padStart(2,"0")}:${minute.toString().padStart(2,"0")} ${ampm}. Get ready for a surprise!`;
 
-    // Hide the input and button
     document.getElementById("alarmSettings").style.display = "none";
     startBtn.style.display = "none";
 });
@@ -81,9 +107,13 @@ function updateClock() {
 
     document.getElementById("time").textContent = `${h12}:${m}:${s} ${ampm}`;
 
-    if(alarmEnabled && !alarmTriggered && now.getHours() === alarmHour && now.getMinutes() === alarmMinute){
+    if(alarmEnabled && !alarmTriggered &&
+       now.getHours() === alarmHour &&
+       now.getMinutes() === alarmMinute) {
+
         alarmTriggered = true;
-        document.getElementById("status").textContent = "It's time! Para mag relapse :<<< You miss her right?...";
+        document.getElementById("status").textContent =
+            "It's time! Para mag relapse :<<< You miss her right?...";
         audio.play();
     }
 }
@@ -94,3 +124,4 @@ updateClock();
 
 </body>
 </html>
+
