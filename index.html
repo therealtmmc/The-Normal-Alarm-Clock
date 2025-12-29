@@ -1,92 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="google-site-verification" content="pe3Tmjt-v8xo6w3v7YwflJnCkeJ_qEdkdV37u8QlKQI" />
-    <meta charset="UTF-8">
-    <title>Alarm Clock</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #0f0f0f;
-            color: #00ffcc;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .clock {
-            text-align: center;
-        }
-
-        #time {
-            font-size: 64px;
-            margin-bottom: 10px;
-        }
-
-        #status {
-            font-size: 18px;
-            color: #ffffff;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Alarm Clock</title>
+<style>
+body {
+    font-family: Arial;
+    background: #0f0f0f;
+    color: #00ffcc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+#time { font-size: 64px; }
+#status { font-size: 18px; margin-top: 10px; }
+#startBtn { margin-top: 20px; padding: 10px 20px; font-size: 16px; }
+</style>
 </head>
 <body>
 
-<div class="clock">
-    <div id="time">--:--:--</div>
-    <div id="status">Alarm set for 2:50 PM</div>
-</div>
+<div id="time">--:--:--</div>
+<div id="status">Alarm set for 12:40 PM</div>
+<button id="startBtn">Enable Alarm</button>
+
+<!-- Audio element -->
+<audio id="alarmAudio" src="background-music.mp3" preload="auto"></audio>
 
 <script>
-const alarmHour = 14;   // 12 PM
-const alarmMinute = 50;
+const alarmHour = 12;
+const alarmMinute = 40;
+let alarmEnabled = false;
 let alarmTriggered = false;
 
-// Spotify playlist URLs
-const spotifyWebURL = "https://open.spotify.com/track/5Ykz2rfupj8lEr5eDumU0X";
-const spotifyAppURI = "https://open.spotify.com/track/5Ykz2rfupj8lEr5eDumU0X?si=8d54a45e3b7d4833";
+const audio = document.getElementById("alarmAudio");
 
-function openSpotifyWindow() {
-    // Try opening Spotify app URI first
-    window.open(spotifyAppURI, "_blank");
+// Enable alarm after user clicks button
+document.getElementById("startBtn").addEventListener("click", () => {
+    alarmEnabled = true;
+    document.getElementById("status").textContent = "Alarm armed. Leave this tab open.";
+});
 
-    // Fallback to web URL after 1 second
-    setTimeout(() => {
-        window.open(spotifyWebURL, "_blank");
-    }, 1000);
-}
-
+// Update clock every second
 function updateClock() {
     const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
+    const h12 = now.getHours() % 12 || 12;
+    const m = now.getMinutes().toString().padStart(2,"0");
+    const s = now.getSeconds().toString().padStart(2,"0");
+    const ampm = now.getHours() >= 12 ? "PM" : "AM";
 
-    // Display time (12-hour format)
-    const displayHours = hours % 12 || 12;
-    const displayMinutes = minutes.toString().padStart(2, "0");
-    const displaySeconds = seconds.toString().padStart(2, "0");
-    const ampm = hours >= 12 ? "PM" : "AM";
+    document.getElementById("time").textContent = `${h12}:${m}:${s} ${ampm}`;
 
-    document.getElementById("time").textContent =
-        `${displayHours}:${displayMinutes}:${displaySeconds} ${ampm}`;
-
-    // Alarm trigger (once)
-    if (!alarmTriggered && hours === alarmHour && minutes === alarmMinute) {
+    if(alarmEnabled && !alarmTriggered && now.getHours() === alarmHour && now.getMinutes() === alarmMinute){
         alarmTriggered = true;
-        document.getElementById("status").textContent =
-            "It's time! Para mag relapse... :>";
-
-        openSpotifyWindow();
+        document.getElementById("status").textContent = "Alarm triggered! Playing music...";
+        audio.play(); // Play your one song
     }
 }
 
-// Update every second
 setInterval(updateClock, 1000);
 updateClock();
 </script>
 
 </body>
 </html>
-
-
