@@ -3,9 +3,7 @@
 <head>
     <meta name="google-site-verification" content="pe3Tmjt-v8xo6w3v7YwflJnCkeJ_qEdkdV37u8QlKQI" />
     <meta charset="UTF-8">
-    <title>Normal Alarm Clock</title>
-    <meta name="description" content="Browser alarm clock that opens a Spotify playlist at 2 PM.">
-    <meta name="keywords" content="alarm clock, spotify alarm, browser alarm, web alarm">
+    <title>Alarm Clock</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,62 +14,68 @@
             justify-content: center;
             align-items: center;
         }
+
         .clock {
             text-align: center;
         }
+
         #time {
             font-size: 64px;
+            margin-bottom: 10px;
         }
+
         #status {
-            margin-top: 10px;
             font-size: 18px;
             color: #ffffff;
         }
     </style>
 </head>
 <body>
+
 <div class="clock">
     <div id="time">--:--:--</div>
-    <div id="status">Please wait until 2:13 PM :></div>
+    <div id="status">Alarm set for 2:20 PM</div>
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const alarmHour = 14; // 2 PM in 24-hour format
-    const alarmMinute = 13;
-    let alarmTriggered = false;
+const alarmHour = 14;   // 12 PM
+const alarmMinute = 20;
+let alarmTriggered = false;
 
-    const spotifyPlaylistURL = "https://open.spotify.com/playlist/5aSBsXSYlhZKgoe71MDu28"; // replace with your playlist
+function updateClock() {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
 
-    function updateClock() {
-        const now = new Date();
-        const hours = now.getHours();
-        const minutes = now.getMinutes();
-        const seconds = now.getSeconds();
+    // Display time (12-hour format)
+    const displayHours = hours % 12 || 12;
+    const displayMinutes = minutes.toString().padStart(2, "0");
+    const displaySeconds = seconds.toString().padStart(2, "0");
+    const ampm = hours >= 12 ? "PM" : "AM";
 
-        const h12 = hours % 12 || 12;
-        const m = minutes.toString().padStart(2, "0");
-        const s = seconds.toString().padStart(2, "0");
-        const ampm = hours >= 12 ? "PM" : "AM";
+    document.getElementById("time").textContent =
+        `${displayHours}:${displayMinutes}:${displaySeconds} ${ampm}`;
 
-        // Display the current time
-        document.getElementById("time").textContent =
-            `${h12}:${m}:${s} ${ampm}`;
+    // Alarm trigger (once)
+    if (
+        !alarmTriggered &&
+        hours === alarmHour &&
+        minutes === alarmMinute
+    ) {
+        alarmTriggered = true;
+        document.getElementById("status").textContent =
+            "Alarm triggered! Opening Spotify...";
 
-        // Trigger the alarm
-        if (!alarmTriggered && hours === alarmHour && minutes === alarmMinute) {
-            alarmTriggered = true;
-            document.getElementById("status").textContent =
-                "It's time! Mahal pa ba niya ako...";
-
-            window.open(open.spotify.com/playlist/5aSBsXSYlhZKgoe71MDu28, "_blank");
-        }
+        window.location.href =
+            "https://open.spotify.com/playlist/5aSBsXSYlhZKgoe71MDu28";
     }
+}
 
-    // Update every second
-    setInterval(updateClock, 1000);
-    updateClock(); // initial call
-});
+// Update every second
+setInterval(updateClock, 1000);
+updateClock();
 </script>
+
 </body>
 </html>
