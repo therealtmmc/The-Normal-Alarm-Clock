@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
     <meta name="google-site-verification" content="pe3Tmjt-v8xo6w3v7YwflJnCkeJ_qEdkdV37u8QlKQI" />
+   <!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <title>Alarm Clock</title>
     <style>
@@ -34,13 +37,16 @@
 
 <div class="clock">
     <div id="time">--:--:--</div>
-    <div id="status">Alarm set for 2:20 PM</div>
+    <div id="status">Alarm set for 2:25 PM</div>
 </div>
 
 <script>
 const alarmHour = 14;   // 12 PM
-const alarmMinute = 20;
+const alarmMinute = 25;
 let alarmTriggered = false;
+
+// Replace with your playlist URL
+const spotifyPlaylistURL = "https://open.spotify.com/playlist/5aSBsXSYlhZKgoe71MDu28";
 
 function updateClock() {
     const now = new Date();
@@ -58,17 +64,16 @@ function updateClock() {
         `${displayHours}:${displayMinutes}:${displaySeconds} ${ampm}`;
 
     // Alarm trigger (once)
-    if (
-        !alarmTriggered &&
-        hours === alarmHour &&
-        minutes === alarmMinute
-    ) {
+    if (!alarmTriggered && hours === alarmHour && minutes === alarmMinute) {
         alarmTriggered = true;
         document.getElementById("status").textContent =
-            "Alarm triggered! Opening Spotify...";
+            "The time has come! Mahal pa ba niya ako?...";
 
-        window.location.href =
-            "https://open.spotify.com/playlist/5aSBsXSYlhZKgoe71MDu28";
+        // Open playlist (current tab)
+        window.location.href = spotifyPlaylistURL;
+
+        // OR open in a new tab:
+        // window.open(spotifyPlaylistURL, "_blank");
     }
 }
 
