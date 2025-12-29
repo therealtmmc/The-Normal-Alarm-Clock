@@ -3,68 +3,131 @@
 <head>
 <meta charset="UTF-8">
 <title>The Relapse Clock Set</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
 <style>
+/* Background */
 body {
-    font-family: Arial;
-    background: #0f0f0f;
-    color: #00ffcc;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    flex-direction: column;
+    color: #ffffff;
 }
 
-/* NEW: Title styling */
+/* App container */
+.app {
+    background: rgba(15, 15, 15, 0.85);
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    padding: 30px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+/* Title */
 h1 {
-    font-size: 42px;
-    margin-bottom: 20px;
-    text-align: center;
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
 }
 
-#time { 
-    font-size: 64px; 
-    margin-bottom: 20px; 
+.subtitle {
+    font-size: 14px;
+    opacity: 0.7;
+    margin-bottom: 25px;
 }
-#status { 
-    font-size: 18px; 
-    margin-top: 10px; 
+
+/* Clock */
+#time {
+    font-size: 52px;
+    font-weight: 600;
+    margin: 20px 0;
+    letter-spacing: 1px;
+}
+
+/* Status text */
+#status {
+    font-size: 14px;
+    opacity: 0.85;
+    margin-bottom: 20px;
+}
+
+/* Inputs */
+.inputs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+input, select {
+    width: 70px;
+    padding: 10px;
+    border-radius: 12px;
+    border: none;
+    background: #1f1f1f;
+    color: #ffffff;
     text-align: center;
+    font-size: 16px;
 }
-#startBtn { 
-    margin-top: 20px; 
-    padding: 10px 20px; 
-    font-size: 16px; 
+
+select {
+    width: 80px;
 }
-input, select { 
-    padding: 5px; 
-    font-size: 16px; 
-    margin: 5px; 
+
+/* Button */
+#startBtn {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 14px;
+    border: none;
+    background: #00ffcc;
+    color: #0f0f0f;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+#startBtn:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(0,255,204,0.4);
+}
+
+/* Hidden state */
+.hidden {
+    display: none;
 }
 </style>
 </head>
 <body>
 
-<!-- NEW TITLE -->
-<h1>The Relapse Clock Set</h1>
+<div class="app">
+    <h1>The Relapse Clock</h1>
+    <div class="subtitle">Some alarms hit harder than others</div>
 
-<div id="time">--:--:--</div>
-<div id="status">Set your alarm time:</div>
+    <div id="time">--:--:--</div>
+    <div id="status">Set your alarm time</div>
 
-<!-- Alarm input -->
-<div id="alarmSettings">
-    <input type="number" id="hourInput" min="1" max="12" placeholder="Hour">
-    <input type="number" id="minuteInput" min="0" max="59" placeholder="Minute">
-    <select id="ampmInput">
-        <option value="AM">AM</option>
-        <option value="PM">PM</option>
-    </select>
+    <div class="inputs" id="alarmSettings">
+        <input type="number" id="hourInput" min="1" max="12" placeholder="HH">
+        <input type="number" id="minuteInput" min="0" max="59" placeholder="MM">
+        <select id="ampmInput">
+            <option>AM</option>
+            <option>PM</option>
+        </select>
+    </div>
+
+    <button id="startBtn">Enable Alarm</button>
+
+    <audio id="alarmAudio" src="Rob Deniel - Nandito Ako (Official Lyric Visualizer).mp3" preload="auto"></audio>
 </div>
-
-<button id="startBtn">Enable Alarm</button>
-
-<!-- Audio element -->
-<audio id="alarmAudio" src="Rob Deniel - Nandito Ako (Official Lyric Visualizer).mp3" preload="auto"></audio>
 
 <script>
 let alarmHour = 0;
@@ -74,15 +137,16 @@ let alarmTriggered = false;
 
 const audio = document.getElementById("alarmAudio");
 const startBtn = document.getElementById("startBtn");
+const settings = document.getElementById("alarmSettings");
 
-// Enable alarm after user clicks button
+// Button click
 startBtn.addEventListener("click", () => {
     const hour = parseInt(document.getElementById("hourInput").value);
     const minute = parseInt(document.getElementById("minuteInput").value);
     const ampm = document.getElementById("ampmInput").value;
 
-    if(isNaN(hour) || isNaN(minute) || hour < 1 || hour > 12 || minute < 0 || minute > 59) {
-        alert("Please enter a valid time.");
+    if (isNaN(hour) || isNaN(minute)) {
+        alert("Enter a valid time.");
         return;
     }
 
@@ -91,13 +155,13 @@ startBtn.addEventListener("click", () => {
     alarmEnabled = true;
 
     document.getElementById("status").textContent =
-        `Alarm set for ${hour.toString().padStart(2,"0")}:${minute.toString().padStart(2,"0")} ${ampm}. Get ready for a surprise!`;
+        `Alarm set for ${hour}:${minute.toString().padStart(2,"0")} ${ampm}`;
 
-    document.getElementById("alarmSettings").style.display = "none";
-    startBtn.style.display = "none";
+    settings.classList.add("hidden");
+    startBtn.classList.add("hidden");
 });
 
-// Update clock every second
+// Clock
 function updateClock() {
     const now = new Date();
     const h12 = now.getHours() % 12 || 12;
@@ -107,13 +171,13 @@ function updateClock() {
 
     document.getElementById("time").textContent = `${h12}:${m}:${s} ${ampm}`;
 
-    if(alarmEnabled && !alarmTriggered &&
-       now.getHours() === alarmHour &&
-       now.getMinutes() === alarmMinute) {
+    if (alarmEnabled && !alarmTriggered &&
+        now.getHours() === alarmHour &&
+        now.getMinutes() === alarmMinute) {
 
         alarmTriggered = true;
         document.getElementById("status").textContent =
-            "It's time! Para mag relapse :<<< You miss her right?...";
+            "It's time… you know what this song means.";
         audio.play();
     }
 }
@@ -124,4 +188,3 @@ updateClock();
 
 </body>
 </html>
-
