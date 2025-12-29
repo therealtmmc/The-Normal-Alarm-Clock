@@ -3,8 +3,8 @@
 <head>
     <meta name="google-site-verification" content="pe3Tmjt-v8xo6w3v7YwflJnCkeJ_qEdkdV37u8QlKQI" />
     <meta charset="UTF-8">
-    <title>Spotify Alarm Clock</title>
-    <meta name="description" content="Browser alarm clock that opens Nandito Ako on Spotify at 12:40 PM.">
+    <title>Normal Alarm Clock</title>
+    <meta name="description" content="Browser alarm clock that opens a Spotify playlist at 2 PM.">
     <meta name="keywords" content="alarm clock, spotify alarm, browser alarm, web alarm">
     <style>
         body {
@@ -32,13 +32,16 @@
 <body>
 <div class="clock">
     <div id="time">--:--:--</div>
-    <div id="status">Alarm set for 12:40 PM</div>
+    <div id="status">Please wait until 2:10 PM :></div>
 </div>
 
 <script>
-const alarmHour = 12;   // 12 PM
-const alarmMinute = 40;
+const alarmHour = 14;   // 2 PM in 24-hour format
+const alarmMinute = 10;
 let alarmTriggered = false;
+
+// Replace this with your playlist URL
+const spotifyPlaylistURL = "https://open.spotify.com/playlist/5aSBsXSYlhZKgoe71MDu28"; 
 
 function updateClock() {
     const now = new Date();
@@ -57,12 +60,10 @@ function updateClock() {
     if (!alarmTriggered && hours === alarmHour && minutes === alarmMinute) {
         alarmTriggered = true;
         document.getElementById("status").textContent =
-            "Alarm triggered! Opening Spotify...";
+            "It's time! Mahal pa ba niya ako...";
 
-        window.open(
-            "https://open.spotify.com/track/5Ykz2rfupj8lEr5eDumU0X",
-            "_blank"
-        );
+        // Open the playlist in a new tab
+        window.open(https:open.spotify.com/playlist/5aSBsXSYlhZKgoe71MDu28, "_blank");
     }
 }
 
