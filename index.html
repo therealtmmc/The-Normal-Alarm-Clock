@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Alarm Clock</title>
+<title>Custom Alarm Clock</title>
 <style>
 body {
     font-family: Arial;
@@ -14,23 +14,35 @@ body {
     height: 100vh;
     flex-direction: column;
 }
-#time { font-size: 64px; }
+#time { font-size: 64px; margin-bottom: 20px; }
 #status { font-size: 18px; margin-top: 10px; }
 #startBtn { margin-top: 20px; padding: 10px 20px; font-size: 16px; }
+input, select { padding: 5px; font-size: 16px; margin: 5px; }
 </style>
 </head>
 <body>
 
 <div id="time">--:--:--</div>
-<div id="status">Alarm set for 4:07 PM?</div>
-<button id="startBtn">Enable Alarm to activate</button>
+<div id="status">Set your alarm time:</div>
+
+<!-- Alarm input -->
+<div id="alarmSettings">
+    <input type="number" id="hourInput" min="1" max="12" placeholder="Hour">
+    <input type="number" id="minuteInput" min="0" max="59" placeholder="Minute">
+    <select id="ampmInput">
+        <option value="AM">AM</option>
+        <option value="PM">PM</option>
+    </select>
+</div>
+
+<button id="startBtn">Enable Alarm</button>
 
 <!-- Audio element -->
 <audio id="alarmAudio" src="Rob Deniel - Nandito Ako (Official Lyric Visualizer).mp3" preload="auto"></audio>
 
 <script>
-const alarmHour = 16;
-const alarmMinute = 07;
+let alarmHour = 0;
+let alarmMinute = 0;
 let alarmEnabled = false;
 let alarmTriggered = false;
 
@@ -39,10 +51,23 @@ const startBtn = document.getElementById("startBtn");
 
 // Enable alarm after user clicks button
 startBtn.addEventListener("click", () => {
+    const hour = parseInt(document.getElementById("hourInput").value);
+    const minute = parseInt(document.getElementById("minuteInput").value);
+    const ampm = document.getElementById("ampmInput").value;
+
+    if(isNaN(hour) || isNaN(minute) || hour < 1 || hour > 12 || minute < 0 || minute > 59) {
+        alert("Please enter a valid time.");
+        return;
+    }
+
+    alarmHour = ampm === "PM" ? (hour % 12) + 12 : hour % 12;
+    alarmMinute = minute;
     alarmEnabled = true;
-    document.getElementById("status").textContent = "Alarm set for 4:07, Get ready for a surprise :>";
-    
-    // Hide the button
+
+    document.getElementById("status").textContent = `Alarm set for ${hour.toString().padStart(2,"0")}:${minute.toString().padStart(2,"0")} ${ampm}. Get ready for a surprise!`;
+
+    // Hide the input and button
+    document.getElementById("alarmSettings").style.display = "none";
     startBtn.style.display = "none";
 });
 
@@ -58,8 +83,8 @@ function updateClock() {
 
     if(alarmEnabled && !alarmTriggered && now.getHours() === alarmHour && now.getMinutes() === alarmMinute){
         alarmTriggered = true;
-        document.getElementById("status").textContent = "It's time.... para mag relapse..";
-        audio.play(); // Play your one song
+        document.getElementById("status").textContent = "It's time! Para mag relapse :<<< You miss her right?...";
+        audio.play();
     }
 }
 
@@ -69,7 +94,3 @@ updateClock();
 
 </body>
 </html>
-
-
-
-
