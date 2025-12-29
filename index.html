@@ -32,43 +32,46 @@
 <body>
 <div class="clock">
     <div id="time">--:--:--</div>
-    <div id="status">Please wait until 2:10 PM :></div>
+    <div id="status">Please wait until 2:13 PM :></div>
 </div>
 
 <script>
-const alarmHour = 14;   // 2 PM in 24-hour format
-const alarmMinute = 10;
-let alarmTriggered = false;
+document.addEventListener("DOMContentLoaded", function() {
+    const alarmHour = 14; // 2 PM in 24-hour format
+    const alarmMinute = 13;
+    let alarmTriggered = false;
 
-// Replace this with your playlist URL
-const spotifyPlaylistURL = "https://open.spotify.com/playlist/5aSBsXSYlhZKgoe71MDu28"; 
+    const spotifyPlaylistURL = "https://open.spotify.com/playlist/5aSBsXSYlhZKgoe71MDu28"; // replace with your playlist
 
-function updateClock() {
-    const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
+    function updateClock() {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
 
-    const h12 = hours % 12 || 12;
-    const m = minutes.toString().padStart(2, "0");
-    const s = seconds.toString().padStart(2, "0");
-    const ampm = hours >= 12 ? "PM" : "AM";
+        const h12 = hours % 12 || 12;
+        const m = minutes.toString().padStart(2, "0");
+        const s = seconds.toString().padStart(2, "0");
+        const ampm = hours >= 12 ? "PM" : "AM";
 
-    document.getElementById("time").textContent =
-        `${h12}:${m}:${s} ${ampm}`;
+        // Display the current time
+        document.getElementById("time").textContent =
+            `${h12}:${m}:${s} ${ampm}`;
 
-    if (!alarmTriggered && hours === alarmHour && minutes === alarmMinute) {
-        alarmTriggered = true;
-        document.getElementById("status").textContent =
-            "It's time! Mahal pa ba niya ako...";
+        // Trigger the alarm
+        if (!alarmTriggered && hours === alarmHour && minutes === alarmMinute) {
+            alarmTriggered = true;
+            document.getElementById("status").textContent =
+                "It's time! Mahal pa ba niya ako...";
 
-        // Open the playlist in a new tab
-        window.open(https:open.spotify.com/playlist/5aSBsXSYlhZKgoe71MDu28, "_blank");
+            window.open(open.spotify.com/playlist/5aSBsXSYlhZKgoe71MDu28, "_blank");
+        }
     }
-}
 
-setInterval(updateClock, 1000);
-updateClock();
+    // Update every second
+    setInterval(updateClock, 1000);
+    updateClock(); // initial call
+});
 </script>
 </body>
 </html>
