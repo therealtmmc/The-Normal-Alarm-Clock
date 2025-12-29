@@ -3,7 +3,9 @@
 <head>
     <meta name="google-site-verification" content="pe3Tmjt-v8xo6w3v7YwflJnCkeJ_qEdkdV37u8QlKQI" />
     <meta charset="UTF-8">
-    <title>Alarm Clock</title>
+    <title>Spotify Alarm Clock</title>
+    <meta name="description" content="Browser alarm clock that opens Nandito Ako on Spotify at 12:40 PM.">
+    <meta name="keywords" content="alarm clock, spotify alarm, browser alarm, web alarm">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,15 +16,12 @@
             justify-content: center;
             align-items: center;
         }
-
         .clock {
             text-align: center;
         }
-
         #time {
             font-size: 64px;
         }
-
         #status {
             margin-top: 10px;
             font-size: 18px;
@@ -31,15 +30,14 @@
     </style>
 </head>
 <body>
-
 <div class="clock">
     <div id="time">--:--:--</div>
-    <div id="status">Alarm set for 1:10 PM</div>
+    <div id="status">Alarm set for 12:40 PM</div>
 </div>
 
 <script>
-const alarmHour = 1;   // 1 PM
-const alarmMinute = 10;
+const alarmHour = 12;   // 12 PM
+const alarmMinute = 40;
 let alarmTriggered = false;
 
 function updateClock() {
@@ -48,7 +46,6 @@ function updateClock() {
     const minutes = now.getMinutes();
     const seconds = now.getSeconds();
 
-    // Display time
     const h12 = hours % 12 || 12;
     const m = minutes.toString().padStart(2, "0");
     const s = seconds.toString().padStart(2, "0");
@@ -57,25 +54,20 @@ function updateClock() {
     document.getElementById("time").textContent =
         `${h12}:${m}:${s} ${ampm}`;
 
-    // Alarm trigger (once)
     if (!alarmTriggered && hours === alarmHour && minutes === alarmMinute) {
         alarmTriggered = true;
         document.getElementById("status").textContent =
-            "Oh my gawd..... What if mahal pa rin niya ako?..";
+            "Alarm triggered! Opening Spotify...";
 
         window.open(
-            "https://open.spotify.com/playlist/5aSBsXSYlhZKgoe71MDu28",
+            "https://open.spotify.com/track/5Ykz2rfupj8lEr5eDumU0X",
             "_blank"
         );
     }
 }
 
-// Check every second
 setInterval(updateClock, 1000);
 updateClock();
 </script>
-
 </body>
 </html>
-
-
