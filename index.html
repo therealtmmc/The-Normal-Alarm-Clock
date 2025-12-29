@@ -22,7 +22,7 @@ body {
 <body>
 
 <div id="time">--:--:--</div>
-<div id="status">Alarm set for 3:20 PM?</div>
+<div id="status">Alarm set for 3:23 PM?</div>
 <button id="startBtn">Enable Alarm to activate</button>
 
 <!-- Audio element -->
@@ -31,7 +31,7 @@ body {
 
 <script>
 const alarmHour = 15;
-const alarmMinute = 20;
+const alarmMinute = 23;
 let alarmEnabled = false;
 let alarmTriggered = false;
 
@@ -40,7 +40,7 @@ const audio = document.getElementById("alarmAudio");
 // Enable alarm after user clicks button
 document.getElementById("startBtn").addEventListener("click", () => {
     alarmEnabled = true;
-    document.getElementById("status").textContent = "Alarm set for 3:20, Get ready for a suprise :>";
+    document.getElementById("status").textContent = "Alarm set for 3:23, Get ready for a suprise :>";
 });
 
 // Update clock every second
@@ -66,5 +66,6 @@ updateClock();
 
 </body>
 </html>
+
 
 
